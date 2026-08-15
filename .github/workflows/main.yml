@@ -43,7 +43,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # timeout-minutes: 360
+    timeout-minutes: 360
     permissions:
       contents: write
     steps:
@@ -127,7 +127,7 @@ jobs:
         (while true; do echo "Syncing source..."; sleep 60; done) &
         TIP_PID=$!
         repo sync --current-branch --no-tags --no-clone-bundle --optimized-fetch --prune --force-sync -j$(nproc --all)
-        kill $TIP_PID
+        kill $TIP_PID && exit 0
 
     - name: Setup device
       run: |
@@ -136,6 +136,7 @@ jobs:
     - name: Prune unused source trees
       run: |
         rm -rf cts test/suite_harness tools/tradefederation tools/loganalysis hardware/google/aemu system/secretkeeper packages/modules/AdServices
+    
     - name: Generate build info
       run: |
         echo -e "$BUILD_INFO" >> INFO.txt
@@ -173,8 +174,8 @@ jobs:
         (while true; do echo `date +%T` "Building TWRP..."; free -h; df -h / | tail -1; ps -eo pid,comm,%mem,%cpu --sort=-%mem | head -n 8; sleep 60; done) &
         TIP_PID=$!
         m -j$JOBS ${{ github.event.inputs.BUILD_PARTITION }}image
-        kill $TIP_PID
         mv out/target/product/${{ github.event.inputs.DEVICE_NAME }}/${{ github.event.inputs.BUILD_PARTITION }}.img out/target/product/${{ github.event.inputs.DEVICE_NAME }}/TWRP-3.7.1-16-${{ github.event.inputs.DEVICE_NAME }}-${{ env.BUILD_DATE }}.img
+        kill $TIP_PID && exit 0
 
     - name: Upload build logs
       if: always()
