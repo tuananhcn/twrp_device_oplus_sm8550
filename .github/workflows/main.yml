@@ -43,7 +43,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 360
+    # timeout-minutes: 360
     permissions:
       contents: write
     steps:
@@ -71,20 +71,36 @@ jobs:
         } >> "$GITHUB_ENV"
         echo BUILD_DATE=`date +%F` >> "$GITHUB_ENV"
         echo "REPO_NAME=$(basename ${{ github.event.inputs.TWRP_MANIFEST_URL }})" >> "$GITHUB_ENV"
-
+        
+    - name: Cleanup
+      uses: rokibhasansagar/slimhub_actions@main
+      
     # 先腾磁盘 + 建 12G 磁盘 swap(扛住内存峰值的关键),必须在装软件/同步源码之前
     - name: Maximize build space
       uses: easimon/maximize-build-space@master
+      # with:
+      #   root-reserve-mb: 2048
+      #   temp-reserve-mb: 1024
+      #   swap-size-mb: 12288
+      #   remove-dotnet: 'true'
+      #   remove-android: 'true'
+      #   remove-haskell: 'true'
+      #   remove-codeql: 'true'
+      #   remove-docker-images: 'true'
+    - name: Setup ccache
+      uses: hendrikmuhs/ccache-action@v1.2
       with:
-        root-reserve-mb: 2048
-        temp-reserve-mb: 1024
-        swap-size-mb: 12288
-        remove-dotnet: 'true'
-        remove-android: 'true'
-        remove-haskell: 'true'
-        remove-codeql: 'true'
-        remove-docker-images: 'true'
+        create-symlink: true
 
+    - name: Setup zram
+      run: |
+        sudo apt install linux-modules-extra-$(uname -r) zram-tools -y
+        sudo modprobe zram
+        sudo sed -i 's/^#PERCENT=50/PERCENT=90/' /etc/default/zramswap
+        sudo sed -i 's/^#PRIORITY=100/PRIORITY=1000/' /etc/default/zramswap
+        sudo systemctl restart zramswap
+        zramctl
+        
     - name: Setup environment
       run: |
         export DEBIAN_FRONTEND=noninteractive
@@ -99,11 +115,11 @@ jobs:
         free -h
         swapon --show
 
-    - name: Setup ccache
-      uses: hendrikmuhs/ccache-action@v1.2
-      with:
-        create-symlink: true
-        update-package-index: false
+    # - name: Setup ccache
+    #   uses: hendrikmuhs/ccache-action@v1.2
+    #   with:
+    #     create-symlink: true
+    #     update-package-index: false
 
     - name: Sync source
       run: |
