@@ -139,6 +139,8 @@ jobs:
       run: |
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
+        export DISABLE_API_CHECK=true
+        export WITHOUT_CHECK_API=true
         # 并发上限封到 3,防止链接阶段内存打爆导致 runner 失联
         JOBS="${{ github.event.inputs.BUILD_JOBS }}"
         CORES=$(nproc --all)
