@@ -120,7 +120,6 @@ jobs:
     - name: Prune unused source trees
       run: |
         rm -rf cts test/suite_harness tools/tradefederation tools/loganalysis hardware/google/aemu system/secretkeeper packages/modules/AdServices
-        rm -rf prebuilts/sdk prebuilts/fullsdk* development SDK
     - name: Generate build info
       run: |
         echo -e "$BUILD_INFO" >> INFO.txt
