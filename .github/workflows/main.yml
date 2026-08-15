@@ -14,7 +14,7 @@ on:
       DEVICE_TREE_URL:
         description: "Device tree url"
         required: true
-        default: "https://github.com/kexi1412/twrp_device_oplus_sm8550"
+        default: "https://github.com/tuananhcn/twrp_device_oplus_sm8550"
       DEVICE_TREE_BRANCH:
         description: "Device tree branch"
         required: true
@@ -110,7 +110,7 @@ jobs:
         repo init -u ${{ github.event.inputs.TWRP_MANIFEST_URL }} -b ${{ github.event.inputs.TWRP_MANIFEST_BRANCH }} --depth=1
         (while true; do echo "Syncing source..."; sleep 60; done) &
         TIP_PID=$!
-        repo sync --current-branch --no-tags --no-clone-bundle --optimized-fetch -j$(nproc --all)
+        repo sync --current-branch --no-tags --no-clone-bundle --optimized-fetch --prune --force-sync -j$(nproc --all)
         kill $TIP_PID
 
     - name: Setup device
@@ -120,7 +120,7 @@ jobs:
     - name: Prune unused source trees
       run: |
         rm -rf cts test/suite_harness tools/tradefederation tools/loganalysis hardware/google/aemu system/secretkeeper packages/modules/AdServices
-
+        rm -rf prebuilts/sdk prebuilts/fullsdk* development SDK
     - name: Generate build info
       run: |
         echo -e "$BUILD_INFO" >> INFO.txt
