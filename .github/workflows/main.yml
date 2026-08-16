@@ -30,7 +30,7 @@ on:
       LUNCH_TARGET:
         description: "Full lunch target"
         required: false
-        default: "twrp_sm8550-aosp_current-eng"
+        default: "twrp_sm8550"
       BUILD_PARTITION:
         description: "Build partition"
         required: true
@@ -52,7 +52,7 @@ jobs:
         if [ -n "${{ github.event.inputs.LUNCH_TARGET }}" ]; then
           echo "LUNCH_TARGET=${{ github.event.inputs.LUNCH_TARGET }}" >> "$GITHUB_ENV"
         else
-          echo "LUNCH_TARGET=twrp_${{ github.event.inputs.DEVICE_NAME }}-aosp_current-eng" >> "$GITHUB_ENV"
+          echo "LUNCH_TARGET=twrp_${{ github.event.inputs.DEVICE_NAME }}" >> "$GITHUB_ENV"
         fi
         {
           echo 'BUILD_INFO<<EOF'
@@ -77,15 +77,21 @@ jobs:
     # 先腾磁盘 + 建 12G 磁盘 swap(扛住内存峰值的关键),必须在装软件/同步源码之前
     - name: Maximize build space
       uses: easimon/maximize-build-space@master
+      # with:
+      #   root-reserve-mb: 2048
+      #   temp-reserve-mb: 1024
+      #   swap-size-mb: 4096
+      #   remove-dotnet: 'true'
+      #   remove-android: 'true'
+      #   remove-haskell: 'true'
+      #   remove-codeql: 'true'
+      #   remove-docker-images: 'true'
+        
+    - name: Setup ccache
+      uses: hendrikmuhs/ccache-action@v1.2
       with:
-        root-reserve-mb: 2048
-        temp-reserve-mb: 1024
-        swap-size-mb: 4096
-        remove-dotnet: 'true'
-        remove-android: 'true'
-        remove-haskell: 'true'
-        remove-codeql: 'true'
-        remove-docker-images: 'true'
+        create-symlink: true
+        # update-package-index: false
 
     - name: Setup environment
       run: |
@@ -100,12 +106,6 @@ jobs:
         df -h
         free -h
         swapon --show
-
-    - name: Setup ccache
-      uses: hendrikmuhs/ccache-action@v1.2
-      with:
-        create-symlink: true
-        update-package-index: false
 
     - name: Sync source
       run: |
