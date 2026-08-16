@@ -138,5 +138,5 @@ void vendor_load_properties() {
         model_info = &kModelInfoMap.find(0)->second;
     }
 
-    SetupModelProperties(*model_info, prjname == 23861 ? "" : region_suffix_iter->second);
+    // SetupModelProperties(*model_info, prjname == 23861 ? "" : region_suffix_iter->second);
 }
