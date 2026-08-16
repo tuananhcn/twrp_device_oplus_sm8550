@@ -37,32 +37,32 @@ struct ModelInfo {
 
 const std::unordered_map<int, ModelInfo> kModelInfoMap = {
     // OnePlus 11 (CN)
-    {22811, {"OnePlus", "OP591BL1",  "OnePlus", "PHB110",  "PHB110",  "OnePlus_11_CN"}},
+    // {22811, {"OnePlus", "OP591BL1",  "OnePlus", "PHB110",  "PHB110",  "OnePlus_11_CN"}},
     // OnePlus 11 (IN/GLO) - CPH2447 India, CPH2449 Global
-    {22861, {"OnePlus", "OP594DL1",  "OnePlus", "CPH2449", "CPH2449", "OnePlus_11"}},
+    // {22861, {"OnePlus", "OP594DL1",  "OnePlus", "CPH2449", "CPH2449", "OnePlus_11"}},
     // OnePlus Ace 2 Pro (CN)
     {22851, {"OnePlus", "OP5943L1",  "OnePlus", "PJA110",  "PJA110",  "OnePlus_Ace2_Pro"}},
     // OnePlus Ace 3 (CN)
-    {23801, {"OnePlus", "OP5CF9L1",  "OnePlus", "PJE110",  "PJE110",  "OnePlus_Ace3"}},
+    // {23801, {"OnePlus", "OP5CF9L1",  "OnePlus", "PJE110",  "PJE110",  "OnePlus_Ace3"}},
     // OnePlus 12R (IN/GLO) - CPH2585 India, CPH2609 Global
-    {23861, {"OnePlus", "OP5D35L1",  "OnePlus", "CPH2609", "CPH2609", "OnePlus_12R"}},
+    // {23861, {"OnePlus", "OP5D35L1",  "OnePlus", "CPH2609", "CPH2609", "OnePlus_12R"}},
     // OnePlus Open (GLO)
-    {22899, {"OnePlus", "OP5973L1",  "OnePlus", "CPH2551", "CPH2551", "OnePlus_Open"}},
+    // {22899, {"OnePlus", "OP5973L1",  "OnePlus", "CPH2551", "CPH2551", "OnePlus_Open"}},
     // OPPO Find X6 Pro (CN)
-    {21131, {"OPPO",    "OP528BL1",  "OPPO",    "PGEM10",  "PGEM10",  "OPPO_Find_X6_Pro"}},
+    // {21131, {"OPPO",    "OP528BL1",  "OPPO",    "PGEM10",  "PGEM10",  "OPPO_Find_X6_Pro"}},
     // OPPO Find N3 (CN)
-    {22003, {"OPPO",    "OP55F3L1",  "OPPO",    "PHN110",  "PHN110",  "OPPO_Find_N3"}},
+    // {22003, {"OPPO",    "OP55F3L1",  "OPPO",    "PHN110",  "PHN110",  "OPPO_Find_N3"}},
     // realme GT5 150W (CN)
-    {22635, {"realme",  "RE5C33",    "realme",  "RMX3820", "RMX3820", "Realme_GT5_150W"}},
+    // {22635, {"realme",  "RE5C33",    "realme",  "RMX3820", "RMX3820", "Realme_GT5_150W"}},
     // realme GT5 240W (CN)
-    {23603, {"realme",  "RE5C33",    "realme",  "RMX3823", "RMX3823", "Realme_GT5_240W"}},
+    // {23603, {"realme",  "RE5C33",    "realme",  "RMX3823", "RMX3823", "Realme_GT5_240W"}},
     // Default
-    {0,     {"OPLUS",   "SM8550",    "OPLUS",   "SM8550",  "SM8550",  "OPLUS_SM8550"}},
+    // {0,     {"OPLUS",   "SM8550",    "OPLUS",   "SM8550",  "SM8550",  "OPLUS_SM8550"}},
 };
 
-const std::unordered_map<int, ModelInfo> kOnePlus12RRegionMap = {
-    {27,  {"OnePlus", "OP5D35L1",  "OnePlus", "CPH2585", "CPH2585", "OnePlus_12R_IN"}},
-};
+// const std::unordered_map<int, ModelInfo> kOnePlus12RRegionMap = {
+//     {27,  {"OnePlus", "OP5D35L1",  "OnePlus", "CPH2585", "CPH2585", "OnePlus_12R_IN"}},
+// };
 
 /*
  * SetProperty does not allow updating read only properties and as a result
@@ -125,12 +125,12 @@ void vendor_load_properties() {
         model_info = &model_info_iter->second;
     }
 
-    if (prjname == 23861) {
-        auto region_model_info = kOnePlus12RRegionMap.find(region);
-        if (region_model_info != kOnePlus12RRegionMap.end()) {
-            model_info = &region_model_info->second;
-        }
-    }
+    // if (prjname == 23861) {
+    //     auto region_model_info = kOnePlus12RRegionMap.find(region);
+    //     if (region_model_info != kOnePlus12RRegionMap.end()) {
+    //         model_info = &region_model_info->second;
+    //     }
+    // }
 
     // Handle unknown device models
     if (model_info == nullptr) {
