@@ -1,10 +1,14 @@
 #
 # Copyright (C) 2026 The Android Open Source Project
+# Copyright (C) 2026 SebaUbuntu's TWRP device tree generator
 #
 # SPDX-License-Identifier: Apache-2.0
 #
 
-PRODUCT_MAKEFILES := $(LOCAL_DIR)/twrp_sm8550.mk
+PRODUCT_MAKEFILES := \
+    $(LOCAL_DIR)/omni_ossi.mk
 
 COMMON_LUNCH_CHOICES := \
-    twrp_sm8550-aosp_current-eng
+    omni_ossi-user \
+    omni_ossi-userdebug \
+    omni_ossi-eng
