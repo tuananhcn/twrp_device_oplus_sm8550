@@ -7,13 +7,6 @@
 
 DEVICE_PATH := device/oplus/ossi
 
-# Inherit from those products. Most specific first.
-$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
-
-# Inherit some common Omni stuff.
-$(call inherit-product, vendor/omni/config/common.mk)
-
 # Inherit from ossi device
 $(call inherit-product, device/oplus/ossi/device.mk)
 
@@ -23,9 +16,7 @@ PRODUCT_BRAND := oplus
 PRODUCT_MODEL := ossi
 PRODUCT_MANUFACTURER := oplus
 
-PRODUCT_GMS_CLIENTID_BASE := android-oplus
-
-PRODUCT_BUILD_PROP_OVERRIDES += \
-    PRIVATE_BUILD_DESC="kalama-user 13 TP1A.220905.001 1778380079394 release-keys"
-
-BUILD_FINGERPRINT := oplus/ossi/ossi:13/TP1A.220905.001/1778380079394:user/release-keys
+# Theme
+TW_STATUS_ICONS_ALIGN   := center
+TW_Y_OFFSET             := 111
+TW_H_OFFSET             := -111
