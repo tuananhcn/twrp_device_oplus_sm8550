@@ -30,7 +30,7 @@ on:
       LUNCH_TARGET:
         description: "Full lunch target"
         required: false
-        default: "twrp_sm8550-aosp_current-eng"
+        default: "twrp_sm8550"
       BUILD_PARTITION:
         description: "Build partition"
         required: true
@@ -78,15 +78,15 @@ jobs:
     # 先腾磁盘 + 建 12G 磁盘 swap(扛住内存峰值的关键),必须在装软件/同步源码之前
     - name: Maximize build space
       uses: easimon/maximize-build-space@master
-      # with:
-      #   root-reserve-mb: 2048
-      #   temp-reserve-mb: 1024
-      #   swap-size-mb: 12288
-      #   remove-dotnet: 'true'
-      #   remove-android: 'true'
-      #   remove-haskell: 'true'
-      #   remove-codeql: 'true'
-      #   remove-docker-images: 'true'
+      with:
+        root-reserve-mb: 2048
+        temp-reserve-mb: 1024
+        swap-size-mb: 12288
+        remove-dotnet: 'true'
+        remove-android: 'true'
+        remove-haskell: 'true'
+        remove-codeql: 'true'
+        remove-docker-images: 'true'
     - name: Setup ccache
       uses: hendrikmuhs/ccache-action@v1.2
       with:
