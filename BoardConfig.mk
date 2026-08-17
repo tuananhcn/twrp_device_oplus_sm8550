@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-DEVICE_PATH := device/oplus/ossi
+DEVICE_PATH := device/oneplus/xigua
 
 # For building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true
@@ -15,9 +15,11 @@ AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS += \
     system \
     vendor \
+    vendor_dlkm \
+    system_ext \
     product \
     odm \
-    system_ext
+    system_dlkm
 BOARD_USES_RECOVERY_AS_BOOT := true
 
 # Architecture
@@ -26,7 +28,7 @@ TARGET_ARCH_VARIANT := armv8-a
 TARGET_CPU_ABI := arm64-v8a
 TARGET_CPU_ABI2 := 
 TARGET_CPU_VARIANT := generic
-TARGET_CPU_VARIANT_RUNTIME := kryo300
+TARGET_CPU_VARIANT_RUNTIME := kryo385
 
 TARGET_2ND_ARCH := arm
 TARGET_2ND_ARCH_VARIANT := armv7-a-neon
@@ -36,7 +38,7 @@ TARGET_2ND_CPU_VARIANT := generic
 TARGET_2ND_CPU_VARIANT_RUNTIME := cortex-a75
 
 # APEX
-DEXPREOPT_GENERATE_APEX_IMAGE := true
+OVERRIDE_TARGET_FLATTEN_APEX := true
 
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := kalama
@@ -46,8 +48,8 @@ TARGET_NO_BOOTLOADER := true
 BOARD_BOOTIMG_HEADER_VERSION := 4
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOTIMG_HEADER_VERSION)
 BOARD_KERNEL_IMAGE_NAME := Image
-TARGET_KERNEL_CONFIG := ossi_defconfig
-TARGET_KERNEL_SOURCE := kernel/oplus/ossi
+TARGET_KERNEL_CONFIG := xigua_defconfig
+TARGET_KERNEL_SOURCE := kernel/oneplus/xigua
 
 # Kernel - prebuilt
 TARGET_FORCE_PREBUILT_KERNEL := true
@@ -64,9 +66,9 @@ BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 TARGET_COPY_OUT_VENDOR := vendor
 BOARD_SUPER_PARTITION_SIZE := 9126805504 # TODO: Fix hardcoded value
-BOARD_SUPER_PARTITION_GROUPS := oplus_dynamic_partitions
-BOARD_OPLUS_DYNAMIC_PARTITIONS_PARTITION_LIST := system system system_ext system_ext product product vendor vendor odm odm my_product my_product my_company my_company my_carrier my_carrier my_region my_region my_bigball my_bigball my_heytap my_heytap my_stock my_stock my_preload my_preload my_manifest my_manifest my_engineering my_engineering
-BOARD_OPLUS_DYNAMIC_PARTITIONS_SIZE := 9122611200 # TODO: Fix hardcoded value
+BOARD_SUPER_PARTITION_GROUPS := oneplus_dynamic_partitions
+BOARD_ONEPLUS_DYNAMIC_PARTITIONS_PARTITION_LIST := system system system_dlkm system_dlkm system_ext system_ext product product vendor vendor vendor_dlkm vendor_dlkm odm odm my_product my_product my_company my_company my_carrier my_carrier my_region my_region my_bigball my_bigball my_heytap my_heytap my_stock my_stock my_preload my_preload my_manifest my_manifest my_engineering my_engineering my_colorospro my_colorospro
+BOARD_ONEPLUS_DYNAMIC_PARTITIONS_SIZE := 9122611200 # TODO: Fix hardcoded value
 
 # Platform
 TARGET_BOARD_PLATFORM := kalama

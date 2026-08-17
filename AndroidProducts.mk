@@ -6,9 +6,9 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/omni_ossi.mk
+    $(LOCAL_DIR)/twrp_xigua.mk
 
-COMMON_LUNCH_CHOICES := \
-    omni_ossi-user \
-    omni_ossi-userdebug \
-    omni_ossi-eng
+# COMMON_LUNCH_CHOICES := \
+#     omni_xigua-user \
+#     omni_xigua-userdebug \
+#     omni_xigua-eng
