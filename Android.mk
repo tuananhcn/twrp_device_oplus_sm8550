@@ -10,3 +10,4 @@ LOCAL_PATH := $(call my-dir)
 ifeq ($(TARGET_DEVICE),xigua)
 include $(call all-subdir-makefiles,$(LOCAL_PATH))
 endif
+# PRODUCT_MAKEFILES := $(LOCAL_DIR)/twrp_xigua.mk
