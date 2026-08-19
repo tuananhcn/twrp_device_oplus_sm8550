@@ -8,7 +8,7 @@
 PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/twrp_xigua.mk
 
-# COMMON_LUNCH_CHOICES := \
-#     omni_xigua-user \
-#     omni_xigua-userdebug \
-#     omni_xigua-eng
+COMMON_LUNCH_CHOICES := \
+    twrp_xigua-user \
+    twrp_xigua-userdebug \
+    twrp_xigua-eng
