@@ -18,19 +18,19 @@ on:
       DEVICE_TREE_BRANCH:
         description: "Device tree branch"
         required: true
-        default: "master"
+        default: "xigua"
       DEVICE_PATH:
         description: "Device path device/"
         required: true
-        default: "oplus/sm8550"
+        default: "oplus/xigua"
       DEVICE_NAME:
         description: "Device name"
         required: true
-        default: "sm8550"
+        default: "xigua"
       LUNCH_TARGET:
         description: "Full lunch target"
         required: false
-        default: "twrp_sm8550"
+        default: "twrp_xigua"
       BUILD_PARTITION:
         description: "Build partition"
         required: true
@@ -72,8 +72,8 @@ jobs:
         echo BUILD_DATE=`date +%F` >> "$GITHUB_ENV"
         echo "REPO_NAME=$(basename ${{ github.event.inputs.TWRP_MANIFEST_URL }})" >> "$GITHUB_ENV"
         
-    - name: Cleanup Hub Tools
-      uses: rokibhasansagar/slimhub_actions@main
+    # - name: Cleanup Hub Tools
+    #   uses: rokibhasansagar/slimhub_actions@main
     # 先腾磁盘 + 建 12G 磁盘 swap(扛住内存峰值的关键),必须在装软件/同步源码之前
     - name: Maximize build space
       uses: easimon/maximize-build-space@master
@@ -81,11 +81,11 @@ jobs:
         root-reserve-mb: 2048
         temp-reserve-mb: 1024
         swap-size-mb: 12288
-        # remove-dotnet: 'true'
-        # remove-android: 'true'
-        # remove-haskell: 'true'
-        # remove-codeql: 'true'
-        # remove-docker-images: 'true'
+        remove-dotnet: 'true'
+        remove-android: 'true'
+        remove-haskell: 'true'
+        remove-codeql: 'true'
+        remove-docker-images: 'true'
         
     - name: Setup ccache
       uses: hendrikmuhs/ccache-action@v1.2
@@ -93,14 +93,14 @@ jobs:
         create-symlink: true
         # update-package-index: false
         
-    - name: Setup zram
-      run: |
-        sudo apt install linux-modules-extra-$(uname -r) zram-tools -y
-        sudo modprobe zram
-        sudo sed -i 's/^#PERCENT=50/PERCENT=90/' /etc/default/zramswap
-        sudo sed -i 's/^#PRIORITY=100/PRIORITY=1000/' /etc/default/zramswap
-        sudo systemctl restart zramswap
-        zramctl
+    # - name: Setup zram
+    #   run: |
+    #     sudo apt install linux-modules-extra-$(uname -r) zram-tools -y
+    #     sudo modprobe zram
+    #     sudo sed -i 's/^#PERCENT=50/PERCENT=90/' /etc/default/zramswap
+    #     sudo sed -i 's/^#PRIORITY=100/PRIORITY=1000/' /etc/default/zramswap
+    #     sudo systemctl restart zramswap
+    #     zramctl
     
     - name: Setup environment
       run: |
