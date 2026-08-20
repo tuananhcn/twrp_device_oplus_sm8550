@@ -87,11 +87,18 @@ TW_INCLUDE_CRYPTO               := true
 TW_INCLUDE_OMAPI                := true
 
 # Kernel
-BOARD_BOOTIMG_HEADER_VERSION := 4
-BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOTIMG_HEADER_VERSION)
-BOARD_KERNEL_IMAGE_NAME := Image
-TARGET_KERNEL_CONFIG := xigua_defconfig
-TARGET_KERNEL_SOURCE := kernel/oneplus/xigua
+# BOARD_BOOTIMG_HEADER_VERSION := 4
+# BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOTIMG_HEADER_VERSION)
+# BOARD_KERNEL_IMAGE_NAME := Image
+# TARGET_KERNEL_CONFIG := xigua_defconfig
+# TARGET_KERNEL_SOURCE := kernel/oneplus/xigua
+BOARD_KERNEL_IMAGE_NAME     := Image
+BOARD_BOOT_HEADER_VERSION   := 4
+BOARD_KERNEL_PAGESIZE       := 4096
+BOARD_MKBOOTIMG_ARGS        += --header_version $(BOARD_BOOT_HEADER_VERSION)
+BOARD_MKBOOTIMG_ARGS        += --pagesize $(BOARD_KERNEL_PAGESIZE)
+
+BOARD_RAMDISK_USE_LZ4       := true
 
 # Kernel - prebuilt
 TARGET_FORCE_PREBUILT_KERNEL := true
@@ -100,28 +107,40 @@ TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
 endif
 
 # Partitions
-BOARD_BOOTIMAGE_PARTITION_SIZE := 104857600
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 104857600
-BOARD_HAS_LARGE_FILESYSTEM := true
-BOARD_SYSTEMIMAGE_PARTITION_TYPE := ext4
-BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := ext4
-BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
-TARGET_COPY_OUT_VENDOR := vendor
-BOARD_SUPER_PARTITION_SIZE := 9126805504 # TODO: Fix hardcoded value
-BOARD_SUPER_PARTITION_GROUPS := oneplus_dynamic_partitions
-BOARD_ONEPLUS_DYNAMIC_PARTITIONS_PARTITION_LIST := system system system_dlkm system_dlkm system_ext system_ext product product vendor vendor vendor_dlkm vendor_dlkm odm odm my_product my_product my_company my_company my_carrier my_carrier my_region my_region my_bigball my_bigball my_heytap my_heytap my_stock my_stock my_preload my_preload my_manifest my_manifest my_engineering my_engineering my_colorospro my_colorospro
-BOARD_ONEPLUS_DYNAMIC_PARTITIONS_SIZE := 9122611200 # TODO: Fix hardcoded value
+# BOARD_BOOTIMAGE_PARTITION_SIZE := 104857600
+# BOARD_RECOVERYIMAGE_PARTITION_SIZE := 104857600
+# BOARD_HAS_LARGE_FILESYSTEM := true
+# BOARD_SYSTEMIMAGE_PARTITION_TYPE := ext4
+# BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := ext4
+# BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
+# TARGET_COPY_OUT_VENDOR := vendor
+# BOARD_SUPER_PARTITION_SIZE := 9126805504 # TODO: Fix hardcoded value
+# BOARD_SUPER_PARTITION_GROUPS := oneplus_dynamic_partitions
+# BOARD_ONEPLUS_DYNAMIC_PARTITIONS_PARTITION_LIST := system system system_dlkm system_dlkm system_ext system_ext product product vendor vendor vendor_dlkm vendor_dlkm odm odm my_product my_product my_company my_company my_carrier my_carrier my_region my_region my_bigball my_bigball my_heytap my_heytap my_stock my_stock my_preload my_preload my_manifest my_manifest my_engineering my_engineering my_colorospro my_colorospro
+# BOARD_ONEPLUS_DYNAMIC_PARTITIONS_SIZE := 9122611200 # TODO: Fix hardcoded value
+BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED  := true
+BOARD_RECOVERYIMAGE_PARTITION_SIZE      := 0x6400000
+
+BOARD_SUPER_PARTITION_SIZE                  := 15569256448
+BOARD_SUPER_PARTITION_GROUPS                := qti_dynamic_partitions
+BOARD_QTI_DYNAMIC_PARTITIONS_SIZE           := 15565062144
+BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := system system_ext product vendor vendor_dlkm odm
+BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST += my_bigball my_carrier my_company my_engineering my_heytap my_manifest my_preload my_product my_region my_stock
+
+BOARD_ODMIMAGE_FILE_SYSTEM_TYPE := ext4
+TARGET_COPY_OUT_ODM             := odm
+TARGET_COPY_OUT_VENDOR          := vendor
 
 # Platform
 TARGET_BOARD_PLATFORM := kalama
 QCOM_BOARD_PLATFORMS += kalama
 
 # Security patch level
-VENDOR_SECURITY_PATCH := 2021-08-01
+# VENDOR_SECURITY_PATCH := 2021-08-01
 
 # Verified Boot
 BOARD_AVB_ENABLE := true
-BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3
+# BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3
 
 # Hack: prevent anti rollback
 PLATFORM_SECURITY_PATCH := 2099-12-31
@@ -184,3 +203,19 @@ TW_LOAD_VENDOR_MODULES_EXCLUDE_GKI      := true
 TW_NO_SCREEN_BLANK                      := true
 TW_USE_SERIALNO_PROPERTY_FOR_DEVICE_ID  := true
 TW_NO_NETWORK                           := true
+
+# Debug
+TARGET_USES_LOGD                := true
+TWRP_INCLUDE_LOGCAT             := true
+TARGET_RECOVERY_DEVICE_MODULES  += debuggerd
+TARGET_RECOVERY_DEVICE_MODULES  += strace
+RECOVERY_BINARY_SOURCE_FILES    += $(TARGET_OUT_EXECUTABLES)/debuggerd
+RECOVERY_BINARY_SOURCE_FILES    += $(TARGET_OUT_EXECUTABLES)/strace
+
+# File systems
+TARGET_USERIMAGES_USE_F2FS := true
+TW_USE_DMCTL               := true
+
+# Init
+TARGET_INIT_VENDOR_LIB          := //$(DEVICE_PATH):libinit_oplus_xigua
+TARGET_RECOVERY_DEVICE_MODULES  := libinit_oplus_xigua

@@ -21,25 +21,40 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 $(call inherit-product, vendor/twrp/config/common.mk)
 
 # Shipping API level
-BOARD_SHIPPING_API_LEVEL    := 32
-PRODUCT_SHIPPING_API_LEVEL  := 32
-PRODUCT_TARGET_VNDK_VERSION := 32
+BOARD_SHIPPING_API_LEVEL    := 33
+PRODUCT_SHIPPING_API_LEVEL  := 33
+PRODUCT_TARGET_VNDK_VERSION := 33
 
-LOCAL_PATH := device/oneplus/xigua
+# Dynamic partitions
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
+
+# Kernel
+PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS   := false
+PRODUCT_ENABLE_UFFD_GC                          := true
+
+# OTA certs
+# PRODUCT_EXTRA_RECOVERY_KEYS += \
+# 	$(DEVICE_PATH)/security/local_OTA \
+# 	$(DEVICE_PATH)/security/special_OTA
+
+# Soong namespaces
+PRODUCT_SOONG_NAMESPACES += $(DEVICE_PATH)
+
+# LOCAL_PATH := device/oneplus/xigua
 # A/B
-AB_OTA_POSTINSTALL_CONFIG += \
-    RUN_POSTINSTALL_system=true \
-    POSTINSTALL_PATH_system=system/bin/otapreopt_script \
-    FILESYSTEM_TYPE_system=ext4 \
-    POSTINSTALL_OPTIONAL_system=true
+# AB_OTA_POSTINSTALL_CONFIG += \
+#     RUN_POSTINSTALL_system=true \
+#     POSTINSTALL_PATH_system=system/bin/otapreopt_script \
+#     FILESYSTEM_TYPE_system=ext4 \
+#     POSTINSTALL_OPTIONAL_system=true
 
 # Boot control HAL
-PRODUCT_PACKAGES += \
-    android.hardware.boot@1.0-impl \
-    android.hardware.boot@1.0-service
+# PRODUCT_PACKAGES += \
+#     android.hardware.boot@1.0-impl \
+#     android.hardware.boot@1.0-service
 
-PRODUCT_PACKAGES += \
-    bootctrl.kalama
+# PRODUCT_PACKAGES += \
+#     bootctrl.kalama
 
 # PRODUCT_STATIC_BOOT_CONTROL_HAL := \
 #     bootctrl.kalama \
@@ -47,9 +62,9 @@ PRODUCT_PACKAGES += \
 #     libz \
 #     libcutils
 
-PRODUCT_PACKAGES += \
-    otapreopt_script \
-    cppreopts.sh \
-    update_engine \
-    update_verifier \
-    update_engine_sideload
+# PRODUCT_PACKAGES += \
+#     otapreopt_script \
+#     cppreopts.sh \
+#     update_engine \
+#     update_verifier \
+#     update_engine_sideload
