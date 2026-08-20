@@ -5,11 +5,11 @@
 //
 
 cc_library_static {
-    name: "libinit_oplus_sm8550",
+    name: "libinit_oplus_xigua",
     static_libs: [
         "libbase",
         "libfs_mgr"
     ],
-    srcs: ["libinit_oplus_sm8550.cpp"],
+    srcs: ["libinit_oplus_xigua.cpp"],
     recovery_available: true,
 }
